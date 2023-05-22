@@ -181,11 +181,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-<<<<<<< HEAD
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-=======
-       
->>>>>>> origin/master
 
         /*
          * Package Service Providers...
