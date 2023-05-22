@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 */
 
 
+
     Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
     Route::get('/login', [loginController::class, 'index']);
     Route::post('login', [loginController::class, 'loginSubmit'])->name('login');
@@ -28,3 +29,4 @@ use App\Http\Controllers\DashboardController;
 Route::get('/csrf_token', function() {
     return response()->json(['csrf_token' => csrf_token()]);
 });
+

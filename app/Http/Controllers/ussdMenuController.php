@@ -54,6 +54,7 @@ class ussdMenuController extends Controller
         $options = implode("\n", $subZones);
         
 
+
         if ($lastInput == "76") {
 
             $response = "CON Welcome to Love Nairobi Festival Launch. Please select an option\n1.Register";
@@ -78,6 +79,7 @@ class ussdMenuController extends Controller
                         $response = "CON Enter Name Of Church/Organization represented";
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
+
 
                         $response = "CON Choose a Zone:\n" . $options;
                         return response($response)->header('Content-Type', 'text/plain');
@@ -107,11 +109,14 @@ class ussdMenuController extends Controller
             } else if ($registration->name && !$registration->Church_Name && !$registration->Sub_County) {
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
 
+
                 $response = "CON Choose a Zone:\n" . $options;
+
 
                 return response($response)->header('Content-Type', 'text/plain');
             } 
             else {
+
 
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1','created_at' => $currentTime]);
                

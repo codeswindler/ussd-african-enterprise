@@ -47,10 +47,12 @@ class SmsAlertController extends Controller
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
+
                     'apikey' => 'xxxx',
                     'partnerID' => 'xxxx',
                     'mobile' => $data,
                     'message' => 'Thank you for registering xxxx',
+
                     'shortcode' => $senderID,
                     'pass_type' => 'plain',
                 ],

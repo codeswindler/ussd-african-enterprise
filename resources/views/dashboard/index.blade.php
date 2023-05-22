@@ -1,4 +1,6 @@
+
 @extends('layouts.mainLayout')
+
 
         <div class="container mt-5 table-responsive ">
           <div class="navbar navbar-expand-md navbar-light bg-white shadow">
@@ -6,8 +8,12 @@
                 <h2 class="resize-text">    
                     LOVE FESTIVAL NAIROBI
                 </h2>
-                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/') }}'">Back</button>
+
+                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/event') }}'">Back</button>
+
+                
                 <button class="btn btn-secondary" onclick="window.location.href='{{ url('/logout') }}'">Logout</button>
+
 
             </div>
 
@@ -15,7 +21,9 @@
             <div class="form-group row mt-3">
                 <div class="col-md-10">
                     <form action="/search" method="get">
-                      @csrf
+
+                 @csrf
+
                         <div class="row">
                             <div class="col-md-10">
                                 <input type="text" name="search" class="form-control mt-2" placeholder="Search by column name">
@@ -36,7 +44,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Sub-Zones</th>
+                      <th>Sub-Zones</th>
+
                         <th>Church Name</th>
                         <th>Mobile</th>
                     </tr>
@@ -90,4 +99,6 @@
     </div>
   </div>
   
+
+    
 
