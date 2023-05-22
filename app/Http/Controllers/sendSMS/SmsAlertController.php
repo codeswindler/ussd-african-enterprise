@@ -16,6 +16,7 @@ class SmsAlertController extends Controller
 
        $network = MobileNumber::getNetwork($data);
         $sender = env('APP_SENDERID');
+        $air_sender = env('APP_AIRSENDERID');
 
         switch($network){
 
@@ -23,7 +24,7 @@ class SmsAlertController extends Controller
                 return $this->send($data,$sender);
                 break;
             case 'Airtel':
-                return $this->send($data,$sender);
+                return $this->send($data,$air_sender);
                 break;
 
             default:
