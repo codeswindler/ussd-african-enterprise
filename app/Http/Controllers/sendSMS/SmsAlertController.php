@@ -14,9 +14,8 @@ class SmsAlertController extends Controller
    public function sendSMS($data){
 
 
-        $network = MobileNumber::getNetwork($data);
-        $sender = env('SENDER_ID');
-        die($sender);
+       $network = MobileNumber::getNetwork($data);
+        $sender = env('APP_SENDERID');
 
         switch($network){
 
@@ -38,6 +37,7 @@ class SmsAlertController extends Controller
 
     public function send($data,$senderID){
 
+      
         if($senderID == null){
             return;
         }else{
@@ -53,7 +53,7 @@ class SmsAlertController extends Controller
                     'apikey' => env('APP_APIKEY'),
                     'partnerID' => env('APP_ID'),
                     'mobile' => $data,
-                    'message' => 'Thank you for registering xxxx',
+                    'message' => 'Thank you for registering',
 
                     'shortcode' => $senderID,
                     'pass_type' => 'plain',

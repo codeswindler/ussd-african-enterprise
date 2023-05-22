@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\sendSMS\SmsAlertController;
 use App\Http\Controllers\ussdMenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
