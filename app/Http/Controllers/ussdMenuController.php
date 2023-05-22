@@ -79,9 +79,19 @@ class ussdMenuController extends Controller
 
                         $response = "CON Choose a Zone:\n";
 
-                         foreach ($subZones as $zone) {
-                       $response .= $zone . "\n";
+                        // for ($i  = 0; $i <= count($subZones);$i++){
+
+                        //     $response .= $i.":".$subZones[$i]. "\n";
+
+                        // }
+
+                        for ($i = 0; $i < count($subZones); $i++) {
+                            $response .= $subZones[$i] . "\n";
                         }
+
+                    //      foreach ($subZones as $zone) {
+                    //    $response .= $zone . "\n";
+                    //     }
 
                         return response($response)->header('Content-Type', 'text/plain');
                     }
@@ -112,9 +122,9 @@ class ussdMenuController extends Controller
 
                 $response = "CON Choose a Zone:\n";
 
-                foreach ($subZones as $zone) {
-              $response .= $zone . "\n";
-               }
+                for ($i = 0; $i < count($subZones); $i++) {
+                    $response .= $subZones[$i] . "\n";
+                }
 
                 return response($response)->header('Content-Type', 'text/plain');
             } 
