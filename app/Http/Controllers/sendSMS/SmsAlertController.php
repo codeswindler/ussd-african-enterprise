@@ -15,14 +15,16 @@ class SmsAlertController extends Controller
 
 
         $network = MobileNumber::getNetwork($data);
+        $sender = env('SENDER_ID');
+        die($sender);
 
         switch($network){
 
             case 'Safaricom':
-                return $this->send($data,'xxxxxx');
+                return $this->send($data,$sender);
                 break;
             case 'Airtel':
-                return $this->send($data,'xxxxx');
+                return $this->send($data,$sender);
                 break;
 
             default:
@@ -48,8 +50,8 @@ class SmsAlertController extends Controller
                 ],
                 'json' => [
 
-                    'apikey' => 'xxxx',
-                    'partnerID' => 'xxxx',
+                    'apikey' => env('APP_APIKEY'),
+                    'partnerID' => env('APP_ID'),
                     'mobile' => $data,
                     'message' => 'Thank you for registering xxxx',
 
