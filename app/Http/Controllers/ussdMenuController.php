@@ -51,10 +51,6 @@ class ussdMenuController extends Controller
             'Western Gate'
         ];
 
-        
-        
-
-
         if ($lastInput == "76") {
 
             $response = "CON Welcome to Love Nairobi Festival Launch. Please select an option\n1.Register";
@@ -80,11 +76,13 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
-                        $response = "CON Choose a zone\n";
-                        foreach ($subZones as $zone) {
-                            $response .= $zone . "\n";
+
+                        $response = "CON Choose a Zone:\n";
+
+                         foreach ($subZones as $zone) {
+                       $response .= $zone . "\n";
                         }
-        
+
                         return response($response)->header('Content-Type', 'text/plain');
                     }
 
@@ -112,11 +110,11 @@ class ussdMenuController extends Controller
             } else if ($registration->name && !$registration->Church_Name && !$registration->Sub_County) {
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
 
+                $response = "CON Choose a Zone:\n";
 
-                $response = "CON Choose a zone\n";
                 foreach ($subZones as $zone) {
-                    $response .= $zone . "\n";
-                }
+              $response .= $zone . "\n";
+               }
 
                 return response($response)->header('Content-Type', 'text/plain');
             } 
