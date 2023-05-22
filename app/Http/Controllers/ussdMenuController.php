@@ -79,7 +79,7 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
-                        $response = "CON Enter Zone Name";
+                        $response = "CON Choose a Zone:\n" . $options;
                         return response($response)->header('Content-Type', 'text/plain');
                     }
 
@@ -107,17 +107,17 @@ class ussdMenuController extends Controller
             } else if ($registration->name && !$registration->Church_Name && !$registration->Sub_County) {
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
 
-                $response = "CON Choose a Sub-County:\n" . $options;
+                $response = "CON Choose a Zone:\n" . $options;
 
                 return response($response)->header('Content-Type', 'text/plain');
             } 
             else {
 
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1','created_at' => $currentTime]);
+               
+                $response = " END Registration Successful";
                 $sendSMS = new SmsAlertController();
                 $resp = $sendSMS->sendSMS($msisdn);
-
-                $response = " END Registration Successful";
                 return response($response)->header('Content-Type', 'text/plain');
             }
         }

@@ -14,7 +14,5 @@ class eventRegistration extends Model
     protected $table = 'event_registrations';
     protected $fillable = ['name','Sub_County','Church_Name','mobile'];
 
-   
-
 
 }
