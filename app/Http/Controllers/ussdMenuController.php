@@ -76,16 +76,16 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
+                    
 
                         $response = "CON Choose a Zone:\n";
 
-                        for ($i  = 0; $i <= count($subZones);$i++){
+                        for ($i  = 0; $i < count($subZones); $i++) {
 
-                            $response .= $i.":".$subZones[$i]. "\n";
-
+                            $response .= $i . ":" . $subZones[$i] . "\n";
                         }
 
-                       
+
 
                         return response($response)->header('Content-Type', 'text/plain');
                     }
@@ -106,32 +106,34 @@ class ussdMenuController extends Controller
 
             if (!$registration->name && !$registration->Church_Name && !$registration->Sub_County) {
 
-                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['name' => $lastInput,'created_at' => $currentTime]);
+                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['name' => $lastInput, 'created_at' => $currentTime]);
 
                 $response = "CON Enter Name Of Church/Organization represented";
 
                 return  response($response)->header('Content-Type', 'text/plain');
             } else if ($registration->name && !$registration->Church_Name && !$registration->Sub_County) {
-                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
+                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput, 'created_at' => $currentTime]);
 
                 $response = "CON Choose a Zone:\n";
 
-                for ($i  = 0; $i <= count($subZones);$i++){
+                for ($i  = 0; $i < count($subZones); $i++) {
 
-                    $response .= $i.":".$subZones[$i]. "\n";
-
+                    $response .= $i . ":" . $subZones[$i] . "\n";
                 }
 
+
                 return response($response)->header('Content-Type', 'text/plain');
-            } 
-            else {
+            } else {
 
-
-                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1','created_at' => $currentTime]);
-               
-                $response = " END Registration Successful";
+                if (is_numeric($lastInput) && isset($subZones[$lastInput])) {
+                    $lastInput = $subZones[$lastInput];
+                }
+                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1', 'created_at' => $currentTime]);
                 $sendSMS = new SmsAlertController();
                 $resp = $sendSMS->sendSMS($msisdn);
+    
+                $response = " END Registration Successful";
+                
                 return response($response)->header('Content-Type', 'text/plain');
             }
         }
