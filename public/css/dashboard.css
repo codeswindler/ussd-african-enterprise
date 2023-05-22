@@ -1,25 +1,33 @@
-@media (max-width: 576px) {
-    .table {
-        font-size: 12px;
-      }
-      .table th,
-      .table td {
-       
-        width: 100%;
-        text-align: center;
-      }
-      .table td {
-        border-bottom: 1px solid #ddd;
-      }
-      .resize-text {
-        font-size: 1.5rem;
-    }}
 
-.boda{
-    border:2px solid green;
+.boda {
+  border: 2px solid green;
 }
 
+
 .main-content {
-    background-color: rgb(247, 250, 247);
+  background-color: rgb(247, 250, 247);
+}
+
+
+
+@media (max-width: 576px) {
+  .table {
+    font-size: 12px;
   }
-  
+
+  .table th,
+  .table td {
+
+    width: 100%;
+    text-align: center;
+  }
+
+  .table td {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .resize-text {
+    font-size: 1.5rem;
+  }
+}
+

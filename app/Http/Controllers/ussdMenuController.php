@@ -25,6 +25,35 @@ class ussdMenuController extends Controller
         $lastInput = end($inputArray);
         $currentTime = Carbon::now();
 
+        $subZones = [
+            'Embakasi East',
+            'Embakasi West',
+            'Embakasi Central',
+            'Makadara',
+            'Kamukunji',
+            'Dagoretti South',
+            'Langata',
+            'Youth Alliance',
+            'Ruaraka',
+            'Roysambu',
+            'Embakasi North',
+            'Embakasi South',
+            'Northern Gate',
+            'Women Alliance',
+            'Dagoretti North',
+            'Starehe',
+            'Kahawa West',
+            'Eastern Gate',
+            'Kasarani',
+            'Mathare',
+            'Kibra',
+            'Westlands',
+            'Western Gate'
+        ];
+
+        $options = implode("\n", $subZones);
+        
+
 
         if ($lastInput == "76") {
 
@@ -51,7 +80,8 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
-                        $response = "CON Enter County Name";
+                                         $response = "CON Enter Zone Name";
+
                         return response($response)->header('Content-Type', 'text/plain');
                     }
 
@@ -78,11 +108,12 @@ class ussdMenuController extends Controller
                 return  response($response)->header('Content-Type', 'text/plain');
             } else if ($registration->name && !$registration->Church_Name && !$registration->Sub_County) {
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
-
-                $response = "CON Enter Sub-County Name";
+                $response = "CON Choose a Sub-County:\n" . $options;
 
                 return response($response)->header('Content-Type', 'text/plain');
-            } else {
+            } 
+            else {
+
 
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1','created_at' => $currentTime]);
                 $sendSMS = new SmsAlertController();
