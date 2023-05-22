@@ -51,7 +51,7 @@ class ussdMenuController extends Controller
             'Western Gate'
         ];
 
-        $options = implode("\n", $subZones);
+        
         
 
 
@@ -80,8 +80,11 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
-
-                        $response = "CON Choose a Zone:\n" . $options;
+                        $response = "CON Choose a zone\n";
+                        foreach ($subZones as $zone) {
+                            $response .= $zone . "\n";
+                        }
+        
                         return response($response)->header('Content-Type', 'text/plain');
                     }
 
@@ -110,8 +113,10 @@ class ussdMenuController extends Controller
                 DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Church_Name' => $lastInput,'created_at' => $currentTime]);
 
 
-                $response = "CON Choose a Zone:\n" . $options;
-
+                $response = "CON Choose a zone\n";
+                foreach ($subZones as $zone) {
+                    $response .= $zone . "\n";
+                }
 
                 return response($response)->header('Content-Type', 'text/plain');
             } 
