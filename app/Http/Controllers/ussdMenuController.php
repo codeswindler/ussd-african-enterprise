@@ -76,16 +76,12 @@ class ussdMenuController extends Controller
                         return response($response)->header('Content-Type', 'text/plain');
                     } else if (!$mobile->Sub_County) {
 
-                    
 
                         $response = "CON Choose a Zone:\n";
 
-                        for ($i  = 0; $i < count($subZones); $i++) {
-
-                            $response .= $i . ":" . $subZones[$i] . "\n";
+                        foreach ($subZones as $index => $subZone) {
+                            $response .= ($index + 1) . ': ' . $subZone . "\n";
                         }
-
-
 
                         return response($response)->header('Content-Type', 'text/plain');
                     }
@@ -116,12 +112,15 @@ class ussdMenuController extends Controller
 
                 $response = "CON Choose a Zone:\n";
 
-                for ($i  = 0; $i < count($subZones); $i++) {
 
-                    $response .= $i . ":" . $subZones[$i] . "\n";
+                foreach ($subZones as $index => $subZone) {
+                    $response .= ($index + 1) . ': ' . $subZone . "\n";
                 }
 
+                // for ($i  = 0; $i < count($subZones); $i++) {
 
+                //     $response .= $i . ":" . $subZones[$i] . "\n";
+                // }
 
                 return response($response)->header('Content-Type', 'text/plain');
             } else {
