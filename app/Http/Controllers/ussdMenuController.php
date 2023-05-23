@@ -37,18 +37,18 @@ class ussdMenuController extends Controller
             'Ruaraka',
             'Roysambu',
             'Embakasi North',
-            // 'Embakasi South',
-            // 'Northern Gate',
-            // 'Women Alliance',
-            // 'Dagoretti North',
-            // 'Starehe',
-            // 'Kahawa West',
-            // 'Eastern Gate',
-            // 'Kasarani',
-            // 'Mathare',
-            // 'Kibra',
-            // 'Westlands',
-            // 'Western Gate'
+            'Embakasi South',
+            'Northern Gate',
+            'Women Alliance',
+            'Dagoretti North',
+            'Starehe',
+            'Kahawa West',
+            'Eastern Gate',
+            'Kasarani',
+            'Mathare',
+            'Kibra',
+            'Westlands',
+            'Western Gate'
         ];
 
         if ($lastInput == "76") {
@@ -118,8 +118,9 @@ class ussdMenuController extends Controller
 
                 for ($i  = 0; $i < count($subZones); $i++) {
 
-                    $response .= $i . ":" . $subZones[$i] . "\n";
+                    $response .= $subZones[$i]."\n";
                 }
+
 
 
                 return response($response)->header('Content-Type', 'text/plain');
