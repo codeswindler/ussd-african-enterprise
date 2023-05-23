@@ -80,7 +80,17 @@ class ussdMenuController extends Controller
 
                         $response = "CON Choose a Zone:\n";
 
-                        for ($i  = 0; $i < count($subZones); $i++) {
+                        for ($i  = 0; $i < 9; $i++) {
+
+                            $response .= $i . ":" . $subZones[$i] . "\n";
+                        }
+
+                        for ($i  = 0; $i < 9; $i++) {
+
+                            $response .= $i . ":" . $subZones[$i] . "\n";
+                        }
+
+                        for ($i  = 0; $i < 4; $i++) {
 
                             $response .= $i . ":" . $subZones[$i] . "\n";
                         }
