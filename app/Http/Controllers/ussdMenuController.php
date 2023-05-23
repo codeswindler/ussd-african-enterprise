@@ -34,7 +34,7 @@ class ussdMenuController extends Controller
             'Dagoretti South',
             'Langata',
             'Youth Alliance',
-            // 'Ruaraka',
+            'Ruaraka',
             // 'Roysambu',
             // 'Embakasi North',
             // 'Embakasi South',
