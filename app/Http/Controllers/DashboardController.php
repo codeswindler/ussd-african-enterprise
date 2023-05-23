@@ -14,16 +14,17 @@ class DashboardController extends Controller
 {
     //
 
-   public function index()
-
-
-  {
-
-   
-      $event = eventRegistration::where('status', 1)->orderByDesc('id')->paginate(5);
-      return view('dashboard.index', compact('event'));
-  }
-
+    public function index()
+    {
+        $event = eventRegistration::where('status', 1)
+            ->orderByDesc('id')
+            ->join('zones', 'event_registrations.Sub_County', '=', 'zones.zoneId')
+            ->select('event_registrations.*', 'zones.zoneName')
+            ->paginate(5);
+    
+        return view('dashboard.index', compact('event'));
+    }
+    
   public function search(Request $request)
   {
 

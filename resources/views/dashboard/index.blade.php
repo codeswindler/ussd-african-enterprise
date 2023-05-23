@@ -55,7 +55,7 @@
                     <tr>
                         <td>{{$row->id}}</td>
                         <td>{{$row->name}}</td>
-                        <td>{{$row->Sub_County}}</td>
+                        <td>{{$row->zoneName}}</td>
                         <td>{{$row->Church_Name}}</td>
                         <td>{{$row->mobile}}</td>
                     </tr>

@@ -25,31 +25,41 @@ class ussdMenuController extends Controller
         $lastInput = end($inputArray);
         $currentTime = Carbon::now();
 
-        $subZones = [
-            'Embakasi East',
-            'Embakasi West',
-            'Embakasi Central',
-            'Makadara',
-            'Kamukunji',
-            'Dagoretti South',
-            'Langata',
-            'Youth Alliance',
-            'Ruaraka',
-            'Roysambu',
-            'Embakasi North',
-            'Embakasi South',
-            'Northern Gate',
-            'Women Alliance',
-            'Dagoretti North',
-            'Starehe',
-            'Kahawa West',
-            'Eastern Gate',
-            'Kasarani',
-            'Mathare',
-            'Kibra',
-            'Westlands',
-            'Western Gate'
+        $group1 = [
+            '1:Embakasi East',
+            '2:Embakasi West',
+            '3:Embakasi Central',
+            '4:Makadara',
+            '5:Kamukunji',
+            '6:Dagoretti South',
+            '7:Langata',
+            '8:Youth Alliance',
+            '9:MORE'
         ];
+
+        $group2 = [
+            '10:Ruaraka',
+            '11:Roysambu',
+            '12:Embakasi North',
+            '13:Embakasi South',
+            '14:Northern Gate',
+            '15:Women Alliance',
+            '16:Dagoretti North',
+            '17:Starehe',
+            '18:MORE'
+        ];
+
+        $group3 = [
+            '19:Kahawa West',
+            '20:Eastern Gate',
+            '21:Kasarani',
+            '22:Mathare',
+            '23:Kibra',
+            '24:Westlands',
+            '25:Western Gate'
+        ];
+        
+        
 
         if ($lastInput == "76") {
 
@@ -78,16 +88,37 @@ class ussdMenuController extends Controller
 
 
                         $response = "CON Choose a Zone:\n";
-
-                        foreach ($subZones as $index => $subZone) {
-                            $response .= ($index + 1) . ': ' . $subZone . "\n";
+                        foreach ($group1 as $group1) {
+                            $response .= $group1 . "\n";
                         }
 
                         return response($response)->header('Content-Type', 'text/plain');
+
+                        if ($lastInput == '9') {
+                            $response = "CON Choose a Zone:\n";
+                            foreach ($group2 as $group2) {
+                                $response .= $group2 . "\n";
+                            }
+                            
+                            return response($response)->header('Content-Type', 'text/plain');
+                        }elseif($lastInput == '18'){
+        
+                            $response = "CON Choose a Zone";
+        
+                            foreach ($group3 as $group3) {
+                                $response .= $group3 . "\n";
+                            }
+        
+                            return response($response)->header('Content-Type', 'text/plain');
+        
+                        }else{
+
+                            $response = "CON Enter Full Name";
+                            return response($response)->header('Content-Type', 'text/plain');
+                        }
                     }
 
-                    $response = "CON Enter Full Name";
-                    return response($response)->header('Content-Type', 'text/plain');
+                    
                 } else {
 
                     DB::table('event_registrations')->insertOrIgnore(['mobile' => $msisdn]);
@@ -113,29 +144,49 @@ class ussdMenuController extends Controller
                 $response = "CON Choose a Zone:\n";
 
 
-                foreach ($subZones as $index => $subZone) {
-                    $response .= ($index + 1) . ': ' . $subZone . "\n";
+                foreach ($group1 as $group1) {
+                    $response .= $group1 . "\n";
                 }
-
-                // for ($i  = 0; $i < count($subZones); $i++) {
-
-                //     $response .= $i . ":" . $subZones[$i] . "\n";
-                // }
 
                 return response($response)->header('Content-Type', 'text/plain');
+
+               
             } else {
 
-                if (is_numeric($lastInput) && isset($subZones[$lastInput])) {
-                    $lastInput = $subZones[$lastInput];
-                }
-                DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1', 'created_at' => $currentTime]);
+                if ($lastInput == '9') {
+                    $response = "CON Choose a Zone:\n";
+                    foreach ($group2 as $group2) {
+                        $response .= $group2 . "\n";
+                    }
+                    
+                    return response($response)->header('Content-Type', 'text/plain');
+                }elseif($lastInput == '18'){
+
+                    $response = "CON Choose a Zone";
+
+                    foreach ($group3 as $group3) {
+                        $response .= $group3 . "\n";
+                    }
+
+                    return response($response)->header('Content-Type', 'text/plain');
+
+                }else{
+
+                    DB::table('event_registrations')->where('mobile', $msisdn)->where('status', '0')->update(['Sub_County' => $lastInput, 'status' => '1', 'created_at' => $currentTime]);
                 $sendSMS = new SmsAlertController();
                 $resp = $sendSMS->sendSMS($msisdn);
     
                 $response = " END Registration Successful";
                 
                 return response($response)->header('Content-Type', 'text/plain');
+
+                }
+            
+                
+                }
+
+                
             }
         }
     }
-}
+
