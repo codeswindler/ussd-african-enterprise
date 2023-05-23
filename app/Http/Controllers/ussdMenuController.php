@@ -82,7 +82,7 @@ class ussdMenuController extends Controller
 
                         for ($i  = 0; $i < count($subZones); $i++) {
 
-                            $response .= $subZones[$i]."\n";
+                            $response .= $i . ":" . $subZones[$i] . "\n";
                         }
 
 
@@ -118,7 +118,7 @@ class ussdMenuController extends Controller
 
                 for ($i  = 0; $i < count($subZones); $i++) {
 
-                    $response .= $subZones[$i]."\n";
+                    $response .= $i . ":" . $subZones[$i] . "\n";
                 }
 
 
