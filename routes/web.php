@@ -20,7 +20,7 @@ use App\Http\Controllers\DashboardController;
     Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
     Route::get('/login', [loginController::class, 'index']);
     Route::post('login', [loginController::class, 'loginSubmit'])->name('login');
-    Route::get('/search', [DashboardController::class, 'search']);
+    Route::post('/search', [DashboardController::class, 'search']);
     Route::post('/export', [DashboardController::class, 'exportData']);
     Route::post('/register', [loginController::class, 'registerAdmin']);
     Route::get('logout', [loginController::class, 'logOut']);

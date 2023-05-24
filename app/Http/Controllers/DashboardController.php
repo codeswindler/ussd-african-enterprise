@@ -17,7 +17,7 @@ class DashboardController extends Controller
   public function index()
   {
     $event = eventRegistration::where('status', 1)
-      ->orderByDesc('id')
+      ->orderByDesc('event_registrations.id')
       ->join('zones', 'event_registrations.Sub_County', '=', 'zones.zoneId')
       ->select('event_registrations.*', 'zones.zoneName')
       ->paginate(5);
@@ -30,9 +30,16 @@ class DashboardController extends Controller
 
     $search = $request->input('search');
 
+    if (empty($search)) {
+
+      return $this->index();
+
+  }
+  
 
     $event = DB::table('event_registrations')
-     ->leftJoin('zones', 'event_registrations.Sub_County', '=', 'zones.id')
+      ->join('zones', 'event_registrations.Sub_County', '=', 'zones.zoneId')
+      ->select('event_registrations.*', 'zones.zoneName')
       ->where('mobile', 'like', "%$search%")
       ->orWhere('event_registrations.id', 'like', "%$search%")
       ->orWhere('name', 'like', "%$search%")

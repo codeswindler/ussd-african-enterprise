@@ -4,9 +4,21 @@
 }
 
 
-.main-content {
-  background-color: rgb(247, 250, 247);
+.navigation {
+  display: flex;
+  justify-content: flex-end;
 }
+
+.button-container {
+  display: flex;
+}
+
+.button-container button {
+  margin-left: 10px; 
+  width: 120px;
+}
+
+
 
 
 
@@ -29,5 +41,9 @@
   .resize-text {
     font-size: 1.5rem;
   }
+
+ 
+
+
 }
 

@@ -1,18 +1,24 @@
 
 @extends('layouts.mainLayout')
 
+<div class="navigation container-fluid bg-dark">
+  <nav class="navbar">
+    <div class="button-container">
+      <button class="btn btn-info" onclick="window.location.href='{{ url('/') }}'">Back</button>
+      <button class="btn btn-danger" onclick="window.location.href='{{ url('/logout') }}'">Logout</button>
+    </div>
+  </nav>
+</div>
+
 
         <div class="container mt-5 table-responsive ">
           <div class="navbar navbar-expand-md navbar-light bg-white shadow">
-            <div class="container-fluid">
+            <div class="container-fluid d-flex justify-content-center align-items-center">
                 <h2 class="resize-text">    
                     LOVE FESTIVAL NAIROBI
                 </h2>
 
-                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/') }}'">Back</button>
-
-                
-                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/logout') }}'">Logout</button>
+                 
 
 
             </div>
@@ -20,7 +26,7 @@
         </div>
             <div class="form-group row mt-3">
                 <div class="col-md-10">
-                    <form action="/search" method="get">
+                    <form action="/search" method="post">
 
                  @csrf
 
@@ -28,14 +34,15 @@
                             <div class="col-md-10">
                                 <input type="text" name="search" class="form-control mt-2" placeholder="Search by column name">
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary w-100 mt-2">Search</button>
+                            <div class="col-md-2 mt-2">
+                                <button class="btn btn-info w-100 ">Search</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 mt-3 mt-md-0">
-                    <button class="btn btn-success w-100 mt-2" data-toggle="modal" data-target="#exportModal">Export</button>
+                <div class="col-md-2 mt-3 mt-md-0 exportcontainer 
+                ">
+                    <button class="btn btn-success w-100 mt-2 mb-3" data-toggle="modal" data-target="#exportModal">Export</button>
 
                 </div>
             </div>

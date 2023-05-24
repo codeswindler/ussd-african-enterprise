@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    
 </head>
-<body class="main-content">
+<body class="main-content bg-light">
 
         @yield('content')
 
