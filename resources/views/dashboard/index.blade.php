@@ -9,7 +9,7 @@
                     LOVE FESTIVAL NAIROBI
                 </h2>
 
-                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/event') }}'">Back</button>
+                <button class="btn btn-secondary" onclick="window.location.href='{{ url('/') }}'">Back</button>
 
                 
                 <button class="btn btn-secondary" onclick="window.location.href='{{ url('/logout') }}'">Logout</button>

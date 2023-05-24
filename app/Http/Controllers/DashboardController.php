@@ -12,19 +12,19 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    //
+  //
 
-    public function index()
-    {
-        $event = eventRegistration::where('status', 1)
-            ->orderByDesc('id')
-            ->join('zones', 'event_registrations.Sub_County', '=', 'zones.zoneId')
-            ->select('event_registrations.*', 'zones.zoneName')
-            ->paginate(5);
-    
-        return view('dashboard.index', compact('event'));
-    }
-    
+  public function index()
+  {
+    $event = eventRegistration::where('status', 1)
+      ->orderByDesc('id')
+      ->join('zones', 'event_registrations.Sub_County', '=', 'zones.zoneId')
+      ->select('event_registrations.*', 'zones.zoneName')
+      ->paginate(5);
+
+    return view('dashboard.index', compact('event'));
+  }
+
   public function search(Request $request)
   {
 
@@ -32,11 +32,12 @@ class DashboardController extends Controller
 
 
     $event = DB::table('event_registrations')
+     ->leftJoin('zones', 'event_registrations.Sub_County', '=', 'zones.id')
       ->where('mobile', 'like', "%$search%")
-      ->orWhere('id', 'like', "%$search%")
+      ->orWhere('event_registrations.id', 'like', "%$search%")
       ->orWhere('name', 'like', "%$search%")
       ->orWhere('Church_Name', 'like', "%$search%")
-      ->orWhere('Sub_County', 'like', "%$search%")
+      ->orWhere('zones.zoneName', 'like', "%$search%")
       ->paginate(5);
 
     return view('dashboard.index', compact('event'));
@@ -63,13 +64,10 @@ class DashboardController extends Controller
 
       fputcsv($file_handle, $columns);
 
-
-
       foreach ($data_array as $row) {
         fputcsv($file_handle, $row);
       }
     }
-
 
     fclose($file_handle);
 
