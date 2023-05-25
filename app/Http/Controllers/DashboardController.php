@@ -46,6 +46,7 @@ class DashboardController extends Controller
       ->orWhere('Church_Name', 'like', "%$search%")
       ->orWhere('zones.zoneName', 'like', "%$search%")
       ->paginate(5);
+      
 
     return view('dashboard.index', compact('event'));
   }

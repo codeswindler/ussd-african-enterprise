@@ -18,9 +18,6 @@
                     LOVE FESTIVAL NAIROBI
                 </h2>
 
-                 
-
-
             </div>
 
         </div>
