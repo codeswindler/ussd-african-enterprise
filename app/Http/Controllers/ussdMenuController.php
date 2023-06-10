@@ -8,8 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Illuminate\Support\Facades\Redis;
 
 
 class ussdMenuController extends Controller {
@@ -52,7 +51,8 @@ class ussdMenuController extends Controller {
     ];
 
 
-    public function index(Request $request) : Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory {
+    public function index(Request $request
+    ) : Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory {
         $this->sessionId = $request->input('SESSIONID');
         //$ussdCode = $request->input('USSDCODE');
         $msisdn = $request->input('MSISDN');
@@ -62,16 +62,15 @@ class ussdMenuController extends Controller {
         $inputArray = explode("*", $input);
         $lastInput = end($inputArray);
         // check if this is a new session
-        $isNewSession = !$request->session()->has($this->sessionId);
+        $isNewSession = Redis::exists($this->sessionId);
 
         // level is how keep track of ussd sessions
         $this->level = Screen::WELCOME;
-        if ($isNewSession) {
-            $request->session()->put($this->sessionId, Screen::WELCOME); // initialize session
+        if (!$isNewSession) {
+            Redis::set($this->sessionId, Screen::WELCOME); // initialize session
         } else {
-            $this->level = (int)$request->session()->get($this->sessionId); //fetch saved session
+            $this->level = (int)Redis::get($this->sessionId); //fetch saved session
         }
-
         $result = match ($this->level) {
             Screen::WELCOME => $this->welcomeScreen(),
             Screen::REGISTER => $this->registerScreen($lastInput, $msisdn),
@@ -83,7 +82,7 @@ class ussdMenuController extends Controller {
             default => "END menu is not set"
         };
 
-        $request->session()->put($this->sessionId, $this->level); // save the next level
+        Redis::set($this->sessionId, $this->level); // save the next level
         return response($result)->header('Content-Type', 'text/plain');
     }
 
@@ -94,7 +93,7 @@ class ussdMenuController extends Controller {
             "\n2.Kenya Students Christian Fellowship Nairobi County";
     }
 
-    private function registerScreen(int $input, $msisdn) : string {
+    private function registerScreen($input, $msisdn) : string {
         if ($input == 1) {
             $isUserRegistered = DB::table('event_registrations')
                 ->where('mobile', $msisdn)
@@ -103,7 +102,7 @@ class ussdMenuController extends Controller {
             if ($isUserRegistered) {
                 return "END You are already registered";
             }
-            session()->put("$this->sessionId:msisdn", $input);
+            Redis::set("$this->sessionId:msisdn", $input);
             $this->level = Screen::FULL_NAME;
             return "CON Enter Full Name";
         }
@@ -117,13 +116,13 @@ class ussdMenuController extends Controller {
     }
 
     private function fullNameScreen($input) : string {
-        session()->put("$this->sessionId:name", $input);
+        Redis::set("$this->sessionId:name", $input);
         $this->level = Screen::CHURCH_NAME;
         return "CON Enter Name Of Church/Organization represented";
     }
 
     private function churchOrgScreen($input) : string {
-        session()->put("$this->sessionId:church", $input);
+        Redis::set("$this->sessionId:church", $input);
         $this->level = Screen::ZONE_ONE;
 
         $response = "CON Choose a Zone:\n";
@@ -142,7 +141,7 @@ class ussdMenuController extends Controller {
             }
             return $response;
         }
-        session()->put("$this->sessionId:zone", $input);
+        Redis::set("$this->sessionId:zone", $input);
 
         return $this->saveEvent();
     }
@@ -156,36 +155,32 @@ class ussdMenuController extends Controller {
             }
             return $response;
         }
-        session()->put("$this->sessionId:zone", $input);
+        Redis::set("$this->sessionId:zone", $input);
 
         return $this->saveEvent();
     }
 
     private function zoneThreeScreen(string $input) : string {
-        session()->put("$this->sessionId:zone", $input);
+        Redis::set("$this->sessionId:zone", $input);
         return $this->saveEvent();
     }
 
     private function saveEvent() : string {
-        try {
-            $msisdn = session()->get("$this->sessionId:msisdn");
+        $msisdn = Redis::get("$this->sessionId:msisdn");
+        $name = Redis::get("$this->sessionId:name");
+        $church = Redis::get("$this->sessionId:church");
+        $zone = Redis::get("$this->sessionId:zone");
 
-            $name = session()->get("$this->sessionId:name");
-            $church = session()->get("$this->sessionId:church");
-            $zone = session()->get("$this->sessionId:zone");
-            DB::table("event_registrations")->insertOrIgnore([
-                "mobile"      => $msisdn,
-                "name"        => $name,
-                "Sub_County"  => $zone,
-                "Church_Name" => $church,
-                "status"      => '1',
-                "created_at"  => Carbon::now(),
-            ]);
+        DB::table("event_registrations")->insertOrIgnore([
+            "mobile"      => $msisdn,
+            "name"        => $name,
+            "Sub_County"  => $zone,
+            "Church_Name" => $church,
+            "status"      => '1',
+            "created_at"  => Carbon::now(),
+        ]);
 
-            return "END Registration Successful";
-        } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
-            return "END Error saving details, Try again";
-        }
+        return "END Registration Successful";
     }
 }
 
