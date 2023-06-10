@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 class Screen {
-    const INIT = 0;
+    const INIT = 1000;
     const WELCOME = 1;
     const REGISTER = 2;
     const FULL_NAME = 3;

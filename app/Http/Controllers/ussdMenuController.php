@@ -65,7 +65,7 @@ class ussdMenuController extends Controller {
         $isNewSession = Redis::exists($this->sessionId);
 
         // level is how keep track of ussd sessions
-        $this->level = Screen::WELCOME;
+        $this->level = Screen::INIT;
         if (!$isNewSession) {
             Redis::set($this->sessionId, Screen::INIT); // initialize session
         } else {
