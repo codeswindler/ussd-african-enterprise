@@ -8,11 +8,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use PHPUnit\Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 
 class ussdMenuController extends Controller {
-    //
 
     private int $level;
     private string $sessionId;
@@ -183,7 +183,7 @@ class ussdMenuController extends Controller {
             ]);
 
             return "END Registration Successful";
-        } catch (Exception $e) {
+        } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
             return "END Error saving details, Try again";
         }
     }
