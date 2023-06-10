@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 class Screen {
     const WELCOME = 1;
     const REGISTER = 2;
-    const FULL_NAME = 2;
+    const FULL_NAME = 3;
     const CHURCH_NAME = 4;
     const ZONE_ONE = 5;
     const ZONE_TWO = 6;
