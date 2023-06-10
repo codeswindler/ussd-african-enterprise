@@ -67,12 +67,12 @@ class ussdMenuController extends Controller {
         // level is how keep track of ussd sessions
         $this->level = Screen::WELCOME;
         if (!$isNewSession) {
-            Redis::set($this->sessionId, Screen::WELCOME); // initialize session
+            Redis::set($this->sessionId, Screen::INIT); // initialize session
         } else {
             $this->level = (int)Redis::get($this->sessionId); //fetch saved session
         }
         $result = match ($this->level) {
-            Screen::WELCOME => $this->welcomeScreen(),
+            Screen::INIT, Screen::WELCOME => $this->initScreen(),
             Screen::REGISTER => $this->registerScreen($lastInput, $msisdn),
             Screen::FULL_NAME => $this->fullNameScreen($lastInput),
             Screen::CHURCH_NAME => $this->churchOrgScreen($lastInput),
@@ -84,6 +84,14 @@ class ussdMenuController extends Controller {
 
         Redis::set($this->sessionId, $this->level); // save the next level
         return response($result)->header('Content-Type', 'text/plain');
+    }
+
+    // this ignores the duplicate first request
+    private function initScreen() : string {
+        $this->level = Screen::WELCOME; // go to the next screen
+        return "CON Welcome to Love Nairobi Festival Launch. Please select an option to Register" .
+            "\n1.LNF Pastors & Leaders Enrichment conference" .
+            "\n2.Kenya Students Christian Fellowship Nairobi County";
     }
 
     private function welcomeScreen() : string {
