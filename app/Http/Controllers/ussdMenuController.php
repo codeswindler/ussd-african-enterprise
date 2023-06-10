@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use App\Models\eventRegistration;
-use App\Http\Controllers\sendSMS\SmsAlertController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use PHPUnit\Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 
 class ussdMenuController extends Controller {
