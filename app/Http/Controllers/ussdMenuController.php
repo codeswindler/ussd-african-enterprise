@@ -72,7 +72,8 @@ class ussdMenuController extends Controller {
             $this->level = (int)Redis::get($this->sessionId); //fetch saved session
         }
         $result = match ($this->level) {
-            Screen::INIT, Screen::WELCOME => $this->initScreen(),
+            Screen::INIT => $this->initScreen(),
+            Screen::WELCOME => $this->welcomeScreen(),
             Screen::REGISTER => $this->registerScreen($lastInput, $msisdn),
             Screen::FULL_NAME => $this->fullNameScreen($lastInput),
             Screen::CHURCH_NAME => $this->churchOrgScreen($lastInput),
@@ -89,7 +90,7 @@ class ussdMenuController extends Controller {
     // this ignores the duplicate first request
     private function initScreen() : string {
         $this->level = Screen::WELCOME; // go to the next screen
-        return "CON Welcome to Love Nairobi Festival Launch. Please select an option to Register" .
+        return "CON Welcome to Love Nairobi Festival Launch. Select an option" .
             "\n1.LNF Pastors & Leaders Enrichment conference" .
             "\n2.Kenya Students Christian Fellowship Nairobi County";
     }
