@@ -1,0 +1,34 @@
+### GET Welcome page
+GET http://localhost:8000/api/ussd?INPUT=76&MSISDN=254719133270&SESSIONID=896504963&USSDCODE=*415#
+Accept: text/plain
+
+
+###############################################
+# LNF Pastors & Leaders Enrichment conference #
+###############################################
+
+### GET Register
+GET http://localhost:8000/api/ussd?INPUT=76*1&MSISDN=254719133270&SESSIONID=896504963&USSDCODE=*415#
+Accept: text/plain
+
+### GET Enter Full name
+GET http://localhost:8000/api/ussd?INPUT=76*1*nixon&MSISDN=254719133270&SESSIONID=896504963&USSDCODE=*415#
+Accept: text/plain
+
+
+### GET Enter Name Of Church/Organization represented
+GET http://localhost:8000/api/ussd?INPUT=76*1*nixon*Test ORG&MSISDN=254719133270&SESSIONID=896504963&USSDCODE=*415#
+Accept: text/plain
+
+
+### GET Choose Zone - more
+GET http://localhost:8000/api/ussd?INPUT=76*1*nixon*Test ORG*1&MSISDN=254719133270&SESSIONID=896504963&USSDCODE=*415#
+Accept: text/plain
+
+
+
+
+
+######################################################
+# Kenya Students Christian Fellowship Nairobi County #
+######################################################
