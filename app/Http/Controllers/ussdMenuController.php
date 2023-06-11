@@ -80,6 +80,10 @@ class ussdMenuController extends Controller {
             Screen::ZONE_ONE => $this->zoneOneScreen($input),
             Screen::ZONE_TWO => $this->zoneTwoScreen($input),
             Screen::ZONE_THREE => $this->zoneThreeScreen($input),
+            Screen::STUDENT_FIRST_NAME => $this->studentFirstName($input),
+            Screen::STUDENT_SURNAME => $this->studentSurname($input),
+            Screen::STUDENT_WHATSAPP_NO => $this->studentWhatsappNo($input),
+            Screen::STUDENT_UPDATES_CONSENT => $this->studentUpdatesConsent($input),
             default => "END menu is not set"
         };
 
@@ -117,8 +121,8 @@ class ussdMenuController extends Controller {
         }
 
         if ($input == 2) { //kenya students
-            // todo implement me
-            return "END hello student christian";
+            $this->level = Screen::STUDENT_FIRST_NAME;
+            return "CON Enter your first name";
         }
 
         return "END Invalid option";
@@ -190,6 +194,40 @@ class ussdMenuController extends Controller {
         ]);
 
         return "END Registration Successful";
+    }
+
+
+    private function studentFirstName($input) : string {
+        Redis::set("$this->sessionId:first_name", $input);
+        $this->level = Screen::STUDENT_SURNAME;
+
+        return "CON Enter your surname\n";
+    }
+
+    private function studentSurname($input) : string {
+        Redis::set("$this->sessionId:surname", $input);
+        $this->level = Screen::STUDENT_WHATSAPP_NO;
+
+        return "CON Enter your Whatsapp number\n";
+    }
+
+    private function studentWhatsappNo($input) : string {
+        Redis::set("$this->sessionId:whatsapp", $input);
+        $this->level = Screen::STUDENT_UPDATES_CONSENT;
+
+        return "CON Would you like to receive updates\n1. Yes\n2. No";
+    }
+
+    private function studentUpdatesConsent($input) : string {
+        Redis::set("$this->sessionId:consent", $input);
+
+        $hasConsented = true;
+        if ($input == "2") {
+            $hasConsented = false;
+        }
+
+
+        return "END Thanks for registering" . $hasConsented ? ", well be in-touch" : "";
     }
 }
 
