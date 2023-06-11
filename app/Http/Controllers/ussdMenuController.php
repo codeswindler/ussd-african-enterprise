@@ -198,7 +198,7 @@ class ussdMenuController extends Controller {
 
 
     private function studentFirstName($input) : string {
-        Redis::set("$this->sessionId:first_name", $input);
+        Redis::set("$this->sessionId:firstname", $input);
         $this->level = Screen::STUDENT_SURNAME;
 
         return "CON Enter your surname\n";
@@ -226,6 +226,16 @@ class ussdMenuController extends Controller {
             $hasConsented = false;
         }
 
+        $firstname = Redis::get("$this->sessionId:firstname");
+        $surname = Redis::get("$this->sessionId:surname");
+        $whatsapp = Redis::get("$this->sessionId:whatsapp");
+
+        DB::table("students_events")->insertOrIgnore([
+            "firstname"       => $firstname,
+            "surname"         => $surname,
+            "whatsapp"        => $whatsapp,
+            "receive_updates" => $hasConsented ? 1 : 0,
+        ]);
 
         return "END Thanks for registering" . $hasConsented ? ", well be in-touch" : "";
     }
