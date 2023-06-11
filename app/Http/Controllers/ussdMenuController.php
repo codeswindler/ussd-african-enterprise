@@ -235,6 +235,7 @@ class ussdMenuController extends Controller {
             "surname"         => $surname,
             "whatsapp"        => $whatsapp,
             "receive_updates" => $hasConsented ? 1 : 0,
+            "created_at"      => Carbon::now(),
         ]);
 
         return "END Thanks for registering";
