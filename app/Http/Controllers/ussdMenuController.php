@@ -237,7 +237,7 @@ class ussdMenuController extends Controller {
             "receive_updates" => $hasConsented ? 1 : 0,
         ]);
 
-        return "END Thanks for registering" . $hasConsented ? ", well be in-touch" : "";
+        return "END Thanks for registering";
     }
 }
 
