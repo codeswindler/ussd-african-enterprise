@@ -97,7 +97,7 @@ class ussdMenuController extends Controller {
 
     private function welcomeScreen() : string {
         $this->level = Screen::REGISTER; // go to the next screen
-        return "CON Welcome to Love Nairobi Festival Launch. Please select an option to Register" .
+        return "CON Welcome to Love Nairobi Festival Launch. Select an option" .
             "\n1.LNF Pastors & Leaders Enrichment conference" .
             "\n2.Kenya Students Christian Fellowship Nairobi County";
     }
