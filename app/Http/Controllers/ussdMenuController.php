@@ -77,13 +77,13 @@ class ussdMenuController extends Controller {
             Screen::REGISTER => $this->registerScreen($lastInput, $msisdn),
             Screen::FULL_NAME => $this->fullNameScreen($lastInput),
             Screen::CHURCH_NAME => $this->churchOrgScreen($lastInput),
-            Screen::ZONE_ONE => $this->zoneOneScreen($input),
-            Screen::ZONE_TWO => $this->zoneTwoScreen($input),
-            Screen::ZONE_THREE => $this->zoneThreeScreen($input),
-            Screen::STUDENT_FIRST_NAME => $this->studentFirstName($input),
-            Screen::STUDENT_SURNAME => $this->studentSurname($input),
-            Screen::STUDENT_WHATSAPP_NO => $this->studentWhatsappNo($input),
-            Screen::STUDENT_UPDATES_CONSENT => $this->studentUpdatesConsent($input),
+            Screen::ZONE_ONE => $this->zoneOneScreen($lastInput),
+            Screen::ZONE_TWO => $this->zoneTwoScreen($lastInput),
+            Screen::ZONE_THREE => $this->zoneThreeScreen($lastInput),
+            Screen::STUDENT_FIRST_NAME => $this->studentFirstName($lastInput),
+            Screen::STUDENT_SURNAME => $this->studentSurname($lastInput),
+            Screen::STUDENT_WHATSAPP_NO => $this->studentWhatsappNo($lastInput),
+            Screen::STUDENT_UPDATES_CONSENT => $this->studentUpdatesConsent($lastInput),
             default => "END menu is not set"
         };
 
