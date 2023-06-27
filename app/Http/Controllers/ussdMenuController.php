@@ -115,7 +115,7 @@ class ussdMenuController extends Controller {
             if ($isUserRegistered) {
                 return "END You are already registered";
             }
-            Redis::set("$this->sessionId:msisdn", $input);
+            Redis::set("$this->sessionId:msisdn", $msisdn);
             $this->level = Screen::FULL_NAME;
             return "CON Enter Full Name";
         }
