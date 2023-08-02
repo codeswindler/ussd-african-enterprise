@@ -32,7 +32,7 @@ class loginController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:1',
         ], [
             'email.required' => 'The email is required.',
             'email.email' => 'Please enter a valid email address.',

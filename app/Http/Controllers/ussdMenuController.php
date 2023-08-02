@@ -84,6 +84,23 @@ class ussdMenuController extends Controller {
             Screen::STUDENT_SURNAME => $this->studentSurname($lastInput),
             Screen::STUDENT_WHATSAPP_NO => $this->studentWhatsappNo($lastInput),
             Screen::STUDENT_UPDATES_CONSENT => $this->studentUpdatesConsent($lastInput),
+            Screen::CHILD_FIRST_NAME => $this->childFirstName($lastInput),
+            Screen::CHILD_SECOND_NAME => $this->childSecondName($lastInput),
+            Screen::CHILD_EMAIL => $this->childEmail($lastInput),
+            Screen::CHILD_MINISTRY => $this->childMinistry($lastInput),
+            Screen::MINISTRY_ROLE => $this->ministryRole($lastInput),
+            Screen::CHILD_GENDER => $this->childGender($lastInput),
+            Screen::CHILD_PHONE_NO => $this->childPhoneNo($lastInput),
+            Screen::FISRT_NAME => $this->firstName($lastInput),
+            Screen::MIDDLE_NAME => $this->middleName($lastInput),
+            Screen::SUR_NAME => $this->surName($lastInput),
+            Screen::WHATSAPP_NUMBER => $this->whatsappNumber($lastInput),
+            Screen::ADDITIONAL_NUMBER => $this->additionalNumber($lastInput),
+            Screen::FEST_EMAIL => $this->festEmail($lastInput),
+            Screen::SUB_COUNTY => $this->subCounty($lastInput),
+            Screen::WARD => $this->Ward($lastInput),
+            Screen::ESTATE => $this->Estate($lastInput),
+            Screen::DATE_TRAINING => $this->dateTraining($lastInput),
             default => "END menu is not set"
         };
 
@@ -95,15 +112,19 @@ class ussdMenuController extends Controller {
     private function initScreen() : string {
         $this->level = Screen::WELCOME; // go to the next screen
         return "CON Welcome to Love Nairobi Festival Launch. Select an option" .
-            "\n1.LNF Pastors & Leaders Enrichment conference" .
-            "\n2.Kenya Students Christian Fellowship Nairobi County";
-    }
+        "\n1.LNF Pastors & Leaders Enrichment conference" .
+        "\n2.Kenya Students Christian Fellowship Nairobi County" .
+        "\n3.Love Nairobi Festival Counsellor Registration" .
+        "\n4.Children Minister's Conference";
+}
 
     private function welcomeScreen() : string {
         $this->level = Screen::REGISTER; // go to the next screen
         return "CON Welcome to Love Nairobi Festival Launch. Select an option" .
             "\n1.LNF Pastors & Leaders Enrichment conference" .
-            "\n2.Kenya Students Christian Fellowship Nairobi County";
+            "\n2.Kenya Students Christian Fellowship Nairobi County"
+            "\n3.Love Nairobi Festival Counsellor Registration"
+            "\n4.Children Minister's Conference";
     }
 
     private function registerScreen($input, $msisdn) : string {
@@ -124,6 +145,13 @@ class ussdMenuController extends Controller {
             $this->level = Screen::STUDENT_FIRST_NAME;
             return "CON Enter your first name";
         }
+        if ($input == 3) { //Nairobi fest
+            $this->level = Screen::FIRST_NAME;
+            return "CON Enter your first name";
+        }
+        if ($input == 4) { //children conference
+            $this->level = Screen::CHILD_FIRST_NAME;
+            return "CON Enter your first name";
 
         return "END Invalid option";
     }
@@ -240,6 +268,161 @@ class ussdMenuController extends Controller {
 
         return "END Thanks for registering";
     }
+
+    private function firstName($input) : string {
+        Redis::set("$this->sessionId:first_name", $input);
+        $this->level = Screen::MIDDLE_NAME;
+
+        return "CON Enter your middle name\n";
+    }
+
+    private function middleName($input) : string {
+        Redis::set("$this->sessionId:middle_name", $input);
+        $this->level = Screen::SUR_NAME;
+
+        return "CON Enter your surname\n";
+    }
+
+    private function surName($input) : string {
+        Redis::set("$this->sessionId:sur_name", $input);
+        $this->level = Screen::WHATSAPP_NUMBER;
+
+        return "CON Enter your whatsapp number. No";
+    }
+
+    private function whatsappNumber($input) : string {
+        Redis::set("$this->sessionId:whatsapp_number", $input);
+        $this->level = Screen::ADDITIONAL_NUMBER;
+
+        return "CON Enter your additional No";
+    }
+    
+    
+    private function additionalNumber($input) : string {
+        Redis::set("$this->sessionId:additional_number", $input);
+        $this->level = Screen::FEST_EMAIL;
+
+        return "CON Enter your email. No";
+    }
+    
+    private function festEmail($input) : string {
+        Redis::set("$this->sessionId:fest_email", $input);
+        $this->level = Screen::SUB_COUNTY;
+
+        return "CON Enter your subcounty";
+    }
+    
+    private function subCounty($input) : string {
+        Redis::set("$this->sessionId:subcounty", $input);
+        $this->level = Screen::WARD;
+
+        return "CON Enter your Ward ";
+    }
+    
+    private function Ward($input) : string {
+        Redis::set("$this->sessionId:ward", $input);
+        $this->level = Screen::ESTATE;
+
+        return "CON Enter your estate";
+    }
+    
+    private function Estate($input) : string {
+        Redis::set("$this->sessionId:estate", $input);
+        $this->level = Screen::DATE_TRAINING;
+
+        return "CON Enter your desired Training Date";
+    }
+
+        $firstName = Redis::get("$this->sessionId:first_name");
+        $middlename = Redis::get("$this->sessionId:middle_name");
+        $surName = Redis::get("$this->sessionId:sur_name");
+        $whatsApp = Redis::get("$this->sessionId:whatsapp_number");
+        $additionalNo = Redis::get("$this->sessionId:additional_number");
+        $email = Redis::get("$this->sessionId:fest_email");
+        $subcounty = Redis::get("$this->sessionId:subcounty");
+        $estate = Redis::get("$this->sessionId:estate");
+
+        DB::table("fest_event")->insertOrIgnore([
+            "first_name"             => $firstName,
+            "middle_name"            => $middlename,
+            "sur_name"               => $surName,
+            "whatsapp_number"        => $whatsApp,
+            "additonal_number"       => $additionalNo
+            "fest_email"             => $email
+            "subcounty"              => $subcounty 
+            "ward"                   => $ward
+            "estate"                 => $estate
+            "created_at"             => Carbon::now(),
+        ]);
+
+        return "END Thanks for registering";
+    }
+
+    private function childFirstName($input) : string {
+        Redis::set("$this->sessionId:child_first_name", $input);
+        $this->level = Screen::CHILD_SECOND_NAME;
+
+        return "CON Enter your second name\n";
+    }
+
+    private function childSecondName($input) : string {
+        Redis::set("$this->sessionId:child_second_name", $input);
+        $this->level = Screen::CHILD_EMAIL;
+
+        return "CON Enter your email\n";
+    }
+
+    private function childEmail($input) : string {
+        Redis::set("$this->sessionId:child_email", $input);
+        $this->level = Screen::CHILD_MINISTRY;
+
+        return "CON Enter your ministry, organization or church";
+    }
+
+    private function childMinistry($input) : string {
+        Redis::set("$this->sessionId:child_ministry", $input);
+        $this->level = Screen::MINISTRY_ROLE;
+
+        return "CON Enter your role or position";
+    }
+    
+    
+    private function ministryRole($input) : string {
+        Redis::set("$this->sessionId:ministry_role", $input);
+        $this->level = Screen::CHILD_GENDER;
+
+        return "CON What is your gender?";
+    }
+    
+    private function childGender($input) : string {
+        Redis::set("$this->sessionId:child_gender", $input);
+        $this->level = Screen::CHILD_PHONE_NO;
+
+        return "CON Enter your phone No";
+    }
+    
+        $childFirstName = Redis::get("$this->sessionId:child_first_name");
+        $childSecondName = Redis::get("$this->sessionId:child_second_name");
+        $childEmail = Redis::get("$this->sessionId:child_email");
+        $childMinistry = Redis::get("$this->sessionId:child_ministry");
+        $ministryRole = Redis::get("$this->sessionId:ministry_role");
+        $childGender = Redis::get("$this->sessionId:child_gender");
+        $childPhoneNo = Redis::get("$this->sessionId:child_phone_no");
+
+        DB::table("fest_event")->insertOrIgnore([
+            "child_first_name"        => $childFirstName,
+            "child_second_name"       => $childSecondName,
+            "child_email"             => $childEmail
+            "child_ministry"          => $childMinistry 
+            "ministry_role"           => $ministryRole
+            "child_gender"            => $childGender
+            "child_phone_no"          =>$childPhoneNo
+            "created_at"              => Carbon::now(),
+        ]);
+
+        return "END Thanks for registering";
+    }
+
 }
 
 
